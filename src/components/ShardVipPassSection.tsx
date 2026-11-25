@@ -141,11 +141,11 @@ export function ShardVipPassSection() {
                 }}
               >
                 <div>
-                  <div className="flex items-center gap-1.5 font-mono-tech text-xs font-extrabold">
-                    <span className={found ? 'text-[#2ee59d]' : 'text-[#ff5da2]'}>
+                  <div className="flex flex-wrap items-center gap-x-1.5 gap-y-0.5 font-mono-tech text-xs font-extrabold">
+                    <span className={`whitespace-nowrap ${found ? 'text-[#2ee59d]' : 'text-[#ff5da2]'}`}>
                       {found ? '✦ COLLECTED' : '○ UNDISCOVERED'}
                     </span>
-                    <span>· {t(item.sector)}</span>
+                    <span className="truncate">· {t(item.sector)}</span>
                   </div>
                   <p className="mt-1 text-xs leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
                     {t(item.hint)}

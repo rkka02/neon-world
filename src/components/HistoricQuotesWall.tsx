@@ -93,8 +93,8 @@ export function HistoricQuotesWall() {
       <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
         <div>
           <div className="club-tag text-[#00f0ff]">
-            <Quote className="h-3 w-3" />
-            <span>NOV 2026 HISTORIC QUOTES WALL // 歴史的発言アーカイブ</span>
+            <Quote className="h-3 w-3 shrink-0" />
+            <span>NOV 2026 QUOTES // 歴史的発言</span>
           </div>
           <h2 className="font-display mt-2 text-2xl font-extrabold sm:text-3xl">
             {t({ ko: '세계를 뒤흔든 2026년 11월 어록 월', en: 'Quotes That Broke the Internet — Nov 2026' })}

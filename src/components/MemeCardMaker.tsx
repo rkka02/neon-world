@@ -16,6 +16,7 @@ const ARTWORKS: Artwork[] = [
   { src: '/art/club-patch-1.png', label: 'PATCH 01', pixel: false, mood: 'hype' },
   { src: '/art/club-patch-2.png', label: 'PATCH 02', pixel: false, mood: 'wink' },
   { src: '/art/club-patch-3.png', label: 'PATCH 03', pixel: false, mood: 'smug' },
+  { src: '/art/club-patch-4.png', label: 'PATCH 04', pixel: false, mood: 'hype' },
   { src: '/art/emote-smug.png', label: 'SMUG', pixel: true, mood: 'smug' },
   { src: '/art/emote-wink.png', label: 'WINK', pixel: true, mood: 'wink' },
   { src: '/art/emote-hype.png', label: 'HYPE', pixel: true, mood: 'hype' },

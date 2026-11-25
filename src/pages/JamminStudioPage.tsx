@@ -43,6 +43,12 @@ const WALLPAPERS = [
     tag: 'KEY VISUAL 06',
     title: { ko: 'Genie 4 월드 모델 & 휴머노이드 건축가', en: 'Genie 4 World Models & Humanoid Architect' },
   },
+  {
+    id: 'forecast',
+    file: '/art/banner-ai-forecast.png',
+    tag: 'KEY VISUAL 07',
+    title: { ko: '특이점 예측시장 & 확률 주사위', en: 'Singularity Prediction Markets & Prism Dice' },
+  },
 ]
 
 export function JamminStudioPage() {
@@ -231,7 +237,7 @@ export function JamminStudioPage() {
             </div>
           </div>
 
-          <div className="mt-6 grid gap-5 md:grid-cols-3">
+          <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {[
               {
                 id: 'patch-1',
@@ -261,6 +267,16 @@ export function JamminStudioPage() {
                 desc: {
                   ko: '4색 체커보드 레이싱 테두리 너머로 훔쳐보는 잼민E 자수 패치 에디션.',
                   en: 'Embroidered-style streetwear club crest with 4-color checkered border & mischievous Jammin-E peek.',
+                },
+              },
+              {
+                id: 'patch-4',
+                file: '/art/club-patch-4.png',
+                tag: 'DROP 04 // CYBER BEAT',
+                name: { ko: '사이버 비트 헤드폰 잼민E', en: 'Cyber Beat Headphones Jammin-E' },
+                desc: {
+                  ko: '애시드 라임·코발트 헤드폰에 번개 헤일로와 구미 음표가 튀는 성수 팝업 에디션.',
+                  en: 'Acid-lime & cobalt streetwear headphones with dripping pixel lightning & 4-color gummy notes.',
                 },
               },
             ].map((patch) => (

@@ -439,9 +439,9 @@ export function HomePage() {
               { file: '/art/club-patch-1.png', tag: 'ACID MELT', pixel: false },
               { file: '/art/club-patch-2.png', tag: 'GUMMY CRT', pixel: false },
               { file: '/art/club-patch-3.png', tag: 'ZETA CREST', pixel: false },
+              { file: '/art/club-patch-4.png', tag: 'CYBER BEAT', pixel: false },
               { file: '/art/emote-smug.png', tag: 'ざぁこ♡', pixel: true },
-              { file: '/art/emote-wink.png', tag: 'WINK', pixel: true },
-              { file: '/art/emote-math.png', tag: 'LEAN 4', pixel: true },
+              { file: '/art/emote-coffee.png', tag: '3AM LATTE', pixel: true },
             ].map((item) => (
               <Link
                 key={item.file}

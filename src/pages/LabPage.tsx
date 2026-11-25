@@ -1,9 +1,11 @@
-import { useEffect, useRef, useState } from 'react'
-import { FlaskConical, Play, Pause, Sparkles, Zap, Terminal, Gift } from 'lucide-react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
+import { FlaskConical, Play, Pause, Sparkles, Zap, Terminal, Gift, Lock, ChevronDown, Trophy } from 'lucide-react'
 import { useApp } from '../context/AppContext'
 import { GACHA_PROPHECIES } from '../data/gachaProphecies'
 import { KernelDefenderGame } from '../components/KernelDefenderGame'
 import { SingularityQuiz } from '../components/SingularityQuiz'
+import { JamminVisualNovel } from '../components/JamminVisualNovel'
 import type { GachaProphecy } from '../types'
 
 // First 10 actual imaginary parts of Riemann zeta nontrivial zeros on Re(s) = 1/2
@@ -49,8 +51,137 @@ const LEAN_LINES_POOL = [
   '  qed -- Kernel Status: GREEN (0 sorry, 0 axioms beyond Mathlib)',
 ]
 
+// ─── ARCADE MODE TABS ─────────────────────────────────────────────
+type ToyId = 'all' | 'vn' | 'kernel' | 'zeta' | 'lean' | 'gacha' | 'quiz'
+const TOY_TABS: { id: Exclude<ToyId, 'all'>; en: string; ko: string }[] = [
+  { id: 'vn', en: 'VN EPISODE', ko: '비주얼 노벨' },
+  { id: 'kernel', en: 'KERNEL DEFENDER', ko: '커널 디펜더' },
+  { id: 'zeta', en: 'ζ(s) CANVAS', ko: '제타 영점' },
+  { id: 'lean', en: 'LEAN RACE', ko: 'Lean 4 챌린지' },
+  { id: 'gacha', en: 'GACHA', ko: '특이점 가챠' },
+  { id: 'quiz', en: 'QUIZ', ko: '특이점 퀴즈' },
+]
+const isToyId = (v: string | null): v is ToyId => v === 'all' || TOY_TABS.some((tab) => tab.id === v)
+
+const RARITY_ORDER: GachaProphecy['rarity'][] = ['UR', 'SSR', 'SR', 'R']
+const VN_ENDING_TOTAL = 3
+const SHARD_TOTAL = 4
+
+function readStringArray(key: string): string[] {
+  try {
+    const raw = JSON.parse(localStorage.getItem(key) ?? '[]') as unknown
+    return Array.isArray(raw) ? raw.filter((x): x is string => typeof x === 'string') : []
+  } catch {
+    return []
+  }
+}
+
+function readGachaCollection(): string[] {
+  const valid = new Set(GACHA_PROPHECIES.map((c) => c.id))
+  return [...new Set(readStringArray('neon-world-gacha'))].filter((id) => valid.has(id))
+}
+
+function readPassport() {
+  return {
+    vn: new Set(readStringArray('neon-world-vn-endings')).size,
+    gacha: readGachaCollection().length,
+    kernel: Number(localStorage.getItem('neon-kernel-best') ?? 0) || 0,
+    shards: new Set(readStringArray('neon-world-shards')).size,
+  }
+}
+
+const PASSPORT_EVENTS = ['storage', 'neon-vn-update', 'neon-collect-shard', 'neon-gacha-update', 'neon-kernel-update'] as const
+
+// ─── PLAYABLE SINGULARITY ARCADE PASSPORT ─────────────────────────
+function ArcadePassport() {
+  const { t } = useApp()
+  const [stats, setStats] = useState(readPassport)
+
+  useEffect(() => {
+    // Defer one tick: some emitters (e.g. shard collect) persist inside their own listener
+    const sync = () => window.setTimeout(() => setStats(readPassport()), 0)
+    PASSPORT_EVENTS.forEach((ev) => window.addEventListener(ev, sync))
+    window.addEventListener('focus', sync)
+    return () => {
+      PASSPORT_EVENTS.forEach((ev) => window.removeEventListener(ev, sync))
+      window.removeEventListener('focus', sync)
+    }
+  }, [])
+
+  const cells: { label: string; value: string; done: boolean; ink: string }[] = [
+    { label: 'VN ENDINGS', value: `${Math.min(stats.vn, VN_ENDING_TOTAL)} / ${VN_ENDING_TOTAL}`, done: stats.vn >= VN_ENDING_TOTAL, ink: 'var(--ink-pink)' },
+    { label: 'GACHA DECK', value: `${stats.gacha} / ${GACHA_PROPHECIES.length}`, done: stats.gacha >= GACHA_PROPHECIES.length, ink: 'var(--ink-gold)' },
+    { label: 'KERNEL BEST', value: `${stats.kernel.toLocaleString()} pts`, done: stats.kernel >= 250, ink: 'var(--ink-cyan)' },
+    { label: 'PRISM SHARDS', value: `${Math.min(stats.shards, SHARD_TOTAL)} / ${SHARD_TOTAL}`, done: stats.shards >= SHARD_TOTAL, ink: 'var(--ink-lime)' },
+  ]
+  const cleared = cells.filter((c) => c.done).length
+
+  return (
+    <section
+      aria-label="Singularity Arcade Passport"
+      className="relative mb-6 overflow-hidden rounded-2xl border-2 p-3 sm:p-4"
+      style={{ borderColor: 'var(--border-strong)', backgroundColor: 'var(--bg-card-solid)', boxShadow: 'var(--manga-shadow)' }}
+    >
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-dashed pb-2" style={{ borderColor: 'var(--border-subtle)' }}>
+        <div className="flex items-center gap-2 font-mono-tech text-[11px] font-black tracking-wider" style={{ color: 'var(--text-primary)' }}>
+          <Trophy className="h-4 w-4" style={{ color: 'var(--ink-lime)' }} />
+          <span>SINGULARITY ARCADE PASSPORT</span>
+          <span className="hidden sm:inline" style={{ color: 'var(--text-muted)' }}>
+            // {t({ ko: '플레이어 업적 보드', en: 'NICE GHOST CLUB MEMBER' })}
+          </span>
+        </div>
+        <span
+          className="rounded-full border px-2 py-0.5 font-mono-tech text-[10px] font-black"
+          style={{ borderColor: 'var(--ink-pink)', color: 'var(--ink-pink)' }}
+        >
+          {cleared}/4 {t({ ko: '스탬프', en: 'STAMPS' })}
+        </span>
+      </div>
+      <div className="mt-2.5 grid grid-cols-2 gap-2 sm:grid-cols-4">
+        {cells.map((c) => (
+          <div
+            key={c.label}
+            className="rounded-xl border px-3 py-2"
+            style={{ borderColor: c.done ? c.ink : 'var(--border-subtle)', backgroundColor: 'var(--bg-elevated)' }}
+          >
+            <div className="flex items-center justify-between font-mono-tech text-[9px] font-bold tracking-wider sm:text-[10px]" style={{ color: 'var(--text-muted)' }}>
+              <span>{c.label}</span>
+              {c.done && <span style={{ color: c.ink }}>✦ CLEAR</span>}
+            </div>
+            <div className="mt-0.5 font-mono-tech text-base font-black sm:text-lg" style={{ color: c.ink }}>
+              {c.value}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  )
+}
+
 export function LabPage() {
   const { t, playSynth, triggerJammin } = useApp()
+
+  // 0) ARCADE MODE (URL-synced via ?toy=)
+  const [searchParams, setSearchParams] = useSearchParams()
+  const rawToy = searchParams.get('toy')
+  const toy: ToyId = isToyId(rawToy) ? rawToy : 'all'
+  const show = (id: Exclude<ToyId, 'all'>) => toy === 'all' || toy === id
+  const selectToy = useCallback(
+    (next: ToyId) => {
+      playSynth('click')
+      setSearchParams(
+        (prev) => {
+          const p = new URLSearchParams(prev)
+          if (next === 'all') p.delete('toy')
+          else p.set('toy', next)
+          return p
+        },
+        { replace: true },
+      )
+    },
+    [playSynth, setSearchParams],
+  )
+  const zetaVisible = toy === 'all' || toy === 'zeta'
 
   // 1) RIEMANN ZETA VISUALIZER STATE
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
@@ -59,12 +190,12 @@ export function LabPage() {
   const [beamFlash, setBeamFlash] = useState(false)
 
   useEffect(() => {
-    if (!autoSweep) return
+    if (!autoSweep || !zetaVisible) return
     const id = window.setInterval(() => {
       setTVal((prev) => (prev >= 54 ? 2 : Number((prev + 0.08).toFixed(2))))
     }, 45)
     return () => window.clearInterval(id)
-  }, [autoSweep])
+  }, [autoSweep, zetaVisible])
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -207,7 +338,7 @@ export function LabPage() {
     ctx.fillText('|ζ(1/2 + it)| CRITICAL LINE ZEROS', gx0, 22)
     ctx.fillStyle = cur.mag < 0.22 ? '#ffd24c' : '#00f0ff'
     ctx.fillText(`t = ${tVal.toFixed(2)}  |ζ| = ${cur.mag.toFixed(3)}`, 16, h - 14)
-  }, [tVal])
+  }, [tVal, zetaVisible])
 
   const nearestZero = RIEMANN_ZEROS.reduce((best, z) =>
     Math.abs(z - tVal) < Math.abs(best - tVal) ? z : best,
@@ -277,24 +408,26 @@ export function LabPage() {
   // 3) SINGULARITY PROPHECY GACHA
   const [pulled, setPulled] = useState<GachaProphecy | null>(null)
   const [rolling, setRolling] = useState(false)
-  const [collection, setCollection] = useState<string[]>(() => {
-    try {
-      const raw = localStorage.getItem('neon-world-gacha')
-      return raw ? (JSON.parse(raw) as string[]) : []
-    } catch {
-      return []
-    }
-  })
+  const [collection, setCollection] = useState<string[]>(readGachaCollection)
+  const [binderOpen, setBinderOpen] = useState(false)
+
+  useEffect(() => {
+    const sync = () => setCollection(readGachaCollection())
+    window.addEventListener('storage', sync)
+    return () => window.removeEventListener('storage', sync)
+  }, [])
 
   const rollGacha = () => {
     playSynth('gacha')
     setRolling(true)
     setTimeout(() => {
-      const r = Math.random() * 100
+      // Normalise by the live pool total so any GACHA_PROPHECIES length / weight sum works
+      const total = GACHA_PROPHECIES.reduce((sum, c) => sum + Math.max(0, c.probabilityPct), 0) || 1
+      const r = Math.random() * total
       let acc = 0
       let chosen = GACHA_PROPHECIES[GACHA_PROPHECIES.length - 1]
       for (const card of GACHA_PROPHECIES) {
-        acc += card.probabilityPct
+        acc += Math.max(0, card.probabilityPct)
         if (r <= acc) {
           chosen = card
           break
@@ -302,11 +435,11 @@ export function LabPage() {
       }
       setPulled(chosen)
       setRolling(false)
-      setCollection((prev) => {
-        const next = prev.includes(chosen.id) ? prev : [...prev, chosen.id]
-        localStorage.setItem('neon-world-gacha', JSON.stringify(next))
-        return next
-      })
+      const prev = readGachaCollection()
+      const next = prev.includes(chosen.id) ? prev : [...prev, chosen.id]
+      localStorage.setItem('neon-world-gacha', JSON.stringify(next))
+      setCollection(next)
+      window.dispatchEvent(new CustomEvent('neon-gacha-update'))
       triggerJammin(chosen.rarity === 'UR' || chosen.rarity === 'SSR' ? 'hype' : 'smug', chosen.jamminQuote)
     }, 520)
   }
@@ -336,7 +469,40 @@ export function LabPage() {
         </p>
       </div>
 
+      <ArcadePassport />
+
+      {/* ARCADE MODE TAB SWITCHER */}
+      <nav
+        aria-label="Arcade mode"
+        className="-mx-4 mb-6 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] sm:mx-0 sm:px-0"
+      >
+        {([{ id: 'all', en: `ALL (${TOY_TABS.length})`, ko: `전체 보기 (${TOY_TABS.length})` }, ...TOY_TABS] as const).map((tab) => {
+          const active = toy === tab.id
+          return (
+            <button
+              key={tab.id}
+              type="button"
+              aria-pressed={active}
+              onClick={() => selectToy(tab.id)}
+              className="shrink-0 cursor-pointer whitespace-nowrap rounded-full border-2 px-3.5 py-1.5 font-mono-tech text-[11px] font-black tracking-wide transition-transform active:scale-95"
+              style={
+                active
+                  ? { borderColor: 'var(--border-strong)', backgroundColor: 'var(--accent-lime)', color: '#111116', boxShadow: 'var(--sticker-shadow)' }
+                  : { borderColor: 'var(--border-subtle)', backgroundColor: 'var(--bg-elevated)', color: 'var(--text-primary)' }
+              }
+            >
+              {t({ ko: tab.ko, en: tab.en })}
+            </button>
+          )
+        })}
+      </nav>
+
+      <div className="space-y-8">
+      {/* TOY 0: JAMMIN-E VISUAL NOVEL — first thing visitors see */}
+      {show('vn') && <JamminVisualNovel />}
+
       {/* TOY 1: RIEMANN ZETA CRITICAL STRIP CANVAS */}
+      {show('zeta') && (
       <section className="neon-panel relative overflow-hidden rounded-3xl p-6 sm:p-8">
         {beamFlash && (
           <div className="animate-beam pointer-events-none absolute inset-y-0 left-0 z-20 w-1/3 bg-gradient-to-r from-transparent via-[#00f0ff]/75 to-transparent" />
@@ -427,10 +593,13 @@ export function LabPage() {
           </div>
         </div>
       </section>
+      )}
 
       {/* TOY 2 & TOY 3 GRID */}
-      <div className="mt-8 grid gap-6 lg:grid-cols-2">
+      {(show('lean') || show('gacha')) && (
+      <div className={`grid gap-6 ${toy === 'all' ? 'lg:grid-cols-2' : ''}`}>
         {/* TOY 2: LEAN 4 SPEED-READ SURVIVAL */}
+        {show('lean') && (
         <section className="neon-panel flex flex-col justify-between rounded-3xl p-6">
           <div>
             <div className="flex items-center justify-between gap-2">
@@ -503,8 +672,10 @@ export function LabPage() {
             )}
           </div>
         </section>
+        )}
 
         {/* TOY 3: 2027 SINGULARITY PROPHECY GACHA */}
+        {show('gacha') && (
         <section className="neon-panel flex flex-col justify-between rounded-3xl p-6">
           <div>
             <div className="flex items-center justify-between gap-2">
@@ -568,6 +739,46 @@ export function LabPage() {
                 </div>
               )}
             </div>
+
+            {/* COLLECTED CARDS BINDER */}
+            <div className="mt-3 rounded-xl border" style={{ borderColor: 'var(--border-subtle)' }}>
+              <button
+                type="button"
+                aria-expanded={binderOpen}
+                onClick={() => setBinderOpen((o) => !o)}
+                className="flex w-full cursor-pointer items-center justify-between px-3 py-2 font-mono-tech text-[10px] font-black tracking-wider"
+                style={{ color: 'var(--text-primary)' }}
+              >
+                <span>
+                  📒 {t({ ko: '수집 카드 바인더', en: 'COLLECTED CARDS BINDER' })} · {collection.length}/{GACHA_PROPHECIES.length}
+                </span>
+                <ChevronDown className={`h-3.5 w-3.5 transition-transform ${binderOpen ? 'rotate-180' : ''}`} />
+              </button>
+              {binderOpen && (
+                <div className="flex max-h-40 flex-wrap gap-1.5 overflow-y-auto border-t px-3 py-2.5" style={{ borderColor: 'var(--border-subtle)' }}>
+                  {[...GACHA_PROPHECIES]
+                    .sort((a, b) => RARITY_ORDER.indexOf(a.rarity) - RARITY_ORDER.indexOf(b.rarity))
+                    .map((card) => {
+                      const got = collection.includes(card.id)
+                      return (
+                        <span
+                          key={card.id}
+                          title={got ? `${card.rarity} · ${card.year} — ${t(card.title)}` : `${card.rarity} · ???`}
+                          className="inline-flex max-w-full items-center gap-1 rounded-md border px-2 py-0.5 text-[10px] font-bold"
+                          style={
+                            got
+                              ? { borderColor: rarityColor(card.rarity), backgroundColor: rarityColor(card.rarity), color: '#070b16' }
+                              : { borderColor: 'var(--border-subtle)', color: 'var(--text-muted)' }
+                          }
+                        >
+                          <span className="font-mono-tech font-black">{card.rarity}</span>
+                          {got ? <span className="truncate">{t(card.title)}</span> : <Lock className="h-2.5 w-2.5" />}
+                        </span>
+                      )
+                    })}
+                </div>
+              )}
+            </div>
           </div>
 
           <button
@@ -579,12 +790,13 @@ export function LabPage() {
             {t({ ko: '✦ 특이점 예언 1회 소환 (무료 가챠!) ✦', en: '✦ SUMMON SINGULARITY PROPHECY (FREE!) ✦' })}
           </button>
         </section>
+        )}
       </div>
+      )}
 
       {/* TOY 4 & TOY 5: MOBILE+DESKTOP ARCADE & SURVIVAL QUIZ */}
-      <div className="mt-8 space-y-8">
-        <KernelDefenderGame />
-        <SingularityQuiz />
+      {show('kernel') && <KernelDefenderGame />}
+      {show('quiz') && <SingularityQuiz />}
       </div>
     </div>
   )

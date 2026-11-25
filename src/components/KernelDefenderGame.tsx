@@ -153,6 +153,7 @@ export function KernelDefenderGame() {
               if (st.score > bestScore) {
                 setBestScore(st.score)
                 localStorage.setItem('neon-kernel-best', String(st.score))
+                window.dispatchEvent(new CustomEvent('neon-kernel-update'))
               }
               triggerJammin(st.score >= 250 ? 'hype' : 'smug', {
                 ko:
