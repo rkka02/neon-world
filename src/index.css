@@ -1,0 +1,335 @@
+@import "tailwindcss";
+
+:root {
+  --font-sans: "Pretendard Variable", "Pretendard", "Space Grotesk", "M PLUS 1p", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: "Syne", "Space Grotesk", "Pretendard Variable", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-jp: "M PLUS 1p", "Pretendard Variable", sans-serif;
+
+  /* Jammin-E 4-Color Prism + Seoul Streetwear Pop Accents */
+  --prism-blue: #3b82f6;
+  --prism-red: #ff3b5c;
+  --prism-gold: #ffd60a;
+  --prism-mint: #2ee59d;
+  --acid-lime: #c8ff00;
+  --neon-cyan: #00f0ff;
+  --neon-pink: #ff2e88;
+  --neon-violet: #8b5cf6;
+}
+
+/* THEME 1: CLUB NIGHT (Jet-Ink Streetwear × Neo-Tokyo Pop Poster) */
+[data-theme="prism-night"] {
+  --bg-base: #090a10;
+  --bg-elevated: #11131e;
+  --bg-card: #131624;
+  --bg-card-solid: #131624;
+  --bg-card-hover: #191d30;
+  --bg-glass: rgba(9, 10, 16, 0.84);
+  --text-primary: #fafbff;
+  --text-secondary: #b5bfd9;
+  --text-muted: #7683a8;
+  --border-subtle: rgba(255, 255, 255, 0.14);
+  --border-strong: #c8ff00;
+  --accent-primary: #00f0ff;
+  --accent-secondary: #ff2e88;
+  --accent-lime: #c8ff00;
+  --accent-gold: #ffd60a;
+  --ink-cyan: #00f0ff;
+  --ink-gold: #ffd60a;
+  --ink-lime: #c8ff00;
+  --ink-pink: #ff5da2;
+  --ink-mint: #2ee59d;
+  --halftone-color: rgba(200, 255, 0, 0.11);
+  --grid-color: rgba(255, 255, 255, 0.045);
+  --shadow-card: 0 14px 36px -22px rgba(0, 0, 0, 0.88);
+  --manga-shadow: 5px 5px 0px #c8ff00;
+  --sticker-shadow: 4px 4px 0px #ff2e88;
+  --badge-bg: rgba(200, 255, 0, 0.12);
+  --code-bg: #07080d;
+}
+
+/* THEME 2: LOOKBOOK CREAM (Heavy Cotton Tee Cream × Seongsu Graphic Club) */
+[data-theme="solar-zine"] {
+  --bg-base: #f6f3ea;
+  --bg-elevated: #fffdf7;
+  --bg-card: #fffdf8;
+  --bg-card-solid: #fffdf8;
+  --bg-card-hover: #ffffff;
+  --bg-glass: rgba(246, 243, 234, 0.88);
+  --text-primary: #111116;
+  --text-secondary: #3f4354;
+  --text-muted: #6f7489;
+  --border-subtle: rgba(17, 17, 22, 0.22);
+  --border-strong: #111116;
+  --accent-primary: #2563eb;
+  --accent-secondary: #ff1e7a;
+  --accent-lime: #a3e600;
+  --accent-gold: #f59e0b;
+  --ink-cyan: #0369a1;
+  --ink-gold: #b45309;
+  --ink-lime: #3f6212;
+  --ink-pink: #db2777;
+  --ink-mint: #047857;
+  --halftone-color: rgba(17, 17, 22, 0.08);
+  --grid-color: rgba(17, 17, 22, 0.05);
+  --shadow-card: 4px 4px 0px rgba(17, 17, 22, 0.92);
+  --manga-shadow: 6px 6px 0px #111116;
+  --sticker-shadow: 4px 4px 0px #ff1e7a;
+  --badge-bg: rgba(200, 255, 0, 0.42);
+  --code-bg: #11131e;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-family: var(--font-sans);
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  background-image:
+    radial-gradient(circle at 8% 8%, rgba(200, 255, 0, 0.07), transparent 32%),
+    radial-gradient(circle at 92% 12%, rgba(255, 46, 136, 0.09), transparent 34%),
+    radial-gradient(circle at 50% 92%, rgba(0, 240, 255, 0.07), transparent 38%),
+    linear-gradient(var(--grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 100% 100%, 36px 36px, 36px 36px;
+  background-attachment: fixed;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+.font-mono-tech {
+  font-family: var(--font-mono);
+}
+.font-jp {
+  font-family: var(--font-jp);
+}
+
+/* Signature Prism + Acid Streetwear Gradient Strip */
+.prism-strip {
+  background: linear-gradient(
+    90deg,
+    var(--acid-lime) 0%,
+    var(--neon-cyan) 22%,
+    var(--prism-blue) 44%,
+    var(--neon-pink) 72%,
+    var(--prism-gold) 100%
+  );
+}
+
+.prism-text {
+  background: linear-gradient(
+    105deg,
+    var(--acid-lime) 0%,
+    var(--neon-cyan) 34%,
+    var(--neon-pink) 72%,
+    var(--prism-gold) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+[data-theme="solar-zine"] .prism-text {
+  background: linear-gradient(
+    105deg,
+    #111116 0%,
+    #2563eb 36%,
+    #ff1e7a 74%,
+    #ea580c 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.prism-text-darkbg {
+  background: linear-gradient(
+    105deg,
+    var(--acid-lime) 0%,
+    var(--neon-cyan) 34%,
+    var(--neon-pink) 72%,
+    var(--prism-gold) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Automatic Lookbook Cream contrast rescue for utility accents */
+[data-theme="solar-zine"] .text-\[\#00f0ff\] {
+  color: var(--ink-cyan) !important;
+}
+[data-theme="solar-zine"] .text-\[\#ffd24c\],
+[data-theme="solar-zine"] .text-\[\#ffd60a\] {
+  color: var(--ink-gold) !important;
+}
+[data-theme="solar-zine"] .text-\[\#c8ff00\] {
+  color: var(--ink-lime) !important;
+}
+[data-theme="solar-zine"] .text-\[\#ff5da2\] {
+  color: var(--ink-pink) !important;
+}
+[data-theme="solar-zine"] .dark-surface .text-\[\#c8ff00\] {
+  color: #c8ff00 !important;
+}
+[data-theme="solar-zine"] .dark-surface .text-\[\#00f0ff\] {
+  color: #00f0ff !important;
+}
+[data-theme="solar-zine"] .dark-surface .text-\[\#ffd24c\],
+[data-theme="solar-zine"] .dark-surface .text-\[\#ffd60a\] {
+  color: #ffd60a !important;
+}
+[data-theme="solar-zine"] .dark-surface .text-\[\#ff5da2\] {
+  color: #ff5da2 !important;
+}
+
+/* Streetwear Graphic Panel (Chunky Crisp Border + Offset Pop!) */
+.neon-panel {
+  position: relative;
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-subtle);
+  box-shadow: var(--shadow-card);
+  transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.neon-panel-interactive:hover {
+  transform: translate(-2px, -3px);
+  border-color: var(--border-strong);
+  box-shadow: var(--manga-shadow);
+}
+
+/* Streetwear Care-Label / Woven Tag Pill */
+.club-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  border: 1.5px solid var(--border-subtle);
+  background-color: var(--bg-elevated);
+  padding: 0.25rem 0.625rem;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.club-sticker {
+  border: 2px solid #111116;
+  box-shadow: var(--sticker-shadow);
+}
+
+/* Ben-Day Anime Halftone Screentone */
+.halftone-bg {
+  background-image: radial-gradient(var(--halftone-color) 1.4px, transparent 1.4px);
+  background-size: 9px 9px;
+}
+
+/* Registration Crosshair Corners */
+.hud-corners::before,
+.hud-corners::after {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  pointer-events: none;
+  border-color: var(--accent-lime);
+  z-index: 20;
+}
+.hud-corners::before {
+  top: 8px;
+  left: 8px;
+  border-top: 2px solid;
+  border-left: 2px solid;
+}
+.hud-corners::after {
+  bottom: 8px;
+  right: 8px;
+  border-bottom: 2px solid;
+  border-right: 2px solid;
+}
+
+/* Kinetic Marquee Ticker */
+@keyframes ticker-scroll {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-ticker {
+  display: flex;
+  width: max-content;
+  animation: ticker-scroll 40s linear infinite;
+}
+
+.animate-ticker:hover {
+  animation-play-state: paused;
+}
+
+@keyframes float-slow {
+  0%, 100% {
+    transform: translateY(0px) rotate(-0.8deg);
+  }
+  50% {
+    transform: translateY(-7px) rotate(1.2deg);
+  }
+}
+
+.animate-float {
+  animation: float-slow 4.2s ease-in-out infinite;
+}
+
+@keyframes beam-sweep {
+  0% {
+    transform: translateX(-120%) skewX(-18deg);
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translateX(220%) skewX(-18deg);
+    opacity: 0;
+  }
+}
+
+.animate-beam {
+  animation: beam-sweep 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-base);
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--acid-lime), var(--neon-pink));
+  border-radius: 999px;
+}
+
+/* Manga Speech Bubble */
+.speech-bubble {
+  position: relative;
+  border: 2px solid var(--border-strong);
+  box-shadow: var(--manga-shadow);
+}
