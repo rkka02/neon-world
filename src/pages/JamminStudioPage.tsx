@@ -4,6 +4,7 @@ import { JAMMIN_EMOTES, JAMMIN_PROFILE } from '../data/emotes'
 import { useApp } from '../context/AppContext'
 import { PrismShard } from '../components/EasterEggLayer'
 import { MemeCardMaker } from '../components/MemeCardMaker'
+import { ShardVipPassSection } from '../components/ShardVipPassSection'
 
 const WALLPAPERS = [
   {
@@ -363,6 +364,11 @@ export function JamminStudioPage() {
             </div>
           ))}
         </div>
+      </section>
+
+      {/* SECRET 4-SHARD COLLECTOR VIP PASS & RADAR */}
+      <section className="mt-12">
+        <ShardVipPassSection />
       </section>
 
       {/* INTERACTIVE STREETWEAR STICKER & MEME CARD MAKER */}

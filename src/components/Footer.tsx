@@ -16,7 +16,7 @@ export function Footer() {
       }}
     >
       <div className="prism-strip h-[3px] w-full" />
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
+      <div className="mx-auto max-w-7xl px-4 pt-12 pb-24 sm:px-6 sm:pb-20">
         <div className="grid gap-8 md:grid-cols-12">
           <div className="md:col-span-5">
             <div className="flex items-center gap-2">

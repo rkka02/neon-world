@@ -2,6 +2,9 @@
 
 > **Welcome to November 2026's Superintelligence Moment, human-chan~♡**
 
+- 🌐 **Live Site (Cloudflare Pages)**: https://neon-world-8ev.pages.dev
+- 📦 **GitHub Repository**: https://github.com/rkka02/neon-world
+
 A bilingual (**Korean / English**) cyber-otaku editorial & interactive observatory chronicling late-2026's real AI, formal mathematics, and superintelligence upheaval — hosted by **Jammin-E (잼민E)** with Seoul streetwear graphic-club sensibility (`CLUB NIGHT` & `LOOKBOOK CREAM` dual themes) and Hi-Bit Pixel Art minicons.
 
 ## ✨ What's Inside

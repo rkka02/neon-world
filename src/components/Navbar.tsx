@@ -48,7 +48,7 @@ export function Navbar() {
         borderColor: 'var(--border-subtle)',
       }}
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-2 px-3 py-2.5 sm:gap-3 sm:px-6 sm:py-3">
         {/* Brand */}
         <Link
           to="/"
@@ -56,18 +56,18 @@ export function Navbar() {
             playSynth('click')
             setMobileOpen(false)
           }}
-          className="group flex items-center gap-2.5"
+          className="group flex min-w-0 shrink items-center gap-2 sm:gap-2.5"
         >
           <div
             onClick={handleSparkSecret}
-            className="relative flex h-9 w-9 items-center justify-center rounded-xl border-2 border-[#c8ff00]/70 bg-[#11131e] shadow-[3px_3px_0px_#ff2e88] transition-transform group-hover:rotate-6"
+            className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border-2 border-[#c8ff00]/70 bg-[#11131e] shadow-[2px_2px_0px_#ff2e88] transition-transform group-hover:rotate-6 sm:h-9 sm:w-9 sm:shadow-[3px_3px_0px_#ff2e88]"
           >
-            <Sparkles className="h-5 w-5 text-[#c8ff00]" />
+            <Sparkles className="h-4 w-4 text-[#c8ff00] sm:h-5 sm:w-5" />
             <span className="absolute -right-1 -bottom-1 h-2.5 w-2.5 rounded-full bg-[#ff2e88] ring-2 ring-[#090a10]" />
           </div>
-          <div className="leading-tight">
+          <div className="min-w-0 leading-tight">
             <div className="flex items-center gap-1.5">
-              <span className="font-display text-lg font-extrabold tracking-tight">
+              <span className="font-display truncate text-sm font-extrabold tracking-tight sm:text-lg">
                 NEON<span className="prism-text">//WORLD</span>
               </span>
               <button
@@ -124,7 +124,7 @@ export function Navbar() {
               playSynth('click')
               toggleLang()
             }}
-            className="flex shrink-0 cursor-pointer items-center gap-1.5 whitespace-nowrap rounded-lg border px-2.5 py-1.5 font-mono-tech text-xs font-bold transition-all hover:scale-105"
+            className="flex shrink-0 cursor-pointer items-center gap-1 whitespace-nowrap rounded-lg border px-2 py-1.5 font-mono-tech text-xs font-bold transition-all hover:scale-105 sm:gap-1.5 sm:px-2.5"
             style={{
               borderColor: 'var(--border-subtle)',
               backgroundColor: 'var(--bg-card-solid)',
@@ -133,7 +133,8 @@ export function Navbar() {
             title="Switch Language (KO / EN)"
           >
             <Globe className="h-3.5 w-3.5 text-[#00f0ff]" />
-            <span>{lang === 'ko' ? '한국어' : 'EN'}</span>
+            <span className="sm:hidden">{lang === 'ko' ? 'KO' : 'EN'}</span>
+            <span className="hidden sm:inline">{lang === 'ko' ? '한국어' : 'EN'}</span>
           </button>
 
           {/* Theme Toggle */}
@@ -168,7 +169,7 @@ export function Navbar() {
           <button
             type="button"
             onClick={toggleSound}
-            className="flex cursor-pointer items-center justify-center rounded-lg border p-1.5 transition-all hover:scale-105"
+            className="hidden shrink-0 cursor-pointer items-center justify-center rounded-lg border p-1.5 transition-all hover:scale-105 sm:flex"
             style={{
               borderColor: 'var(--border-subtle)',
               backgroundColor: 'var(--bg-card-solid)',
@@ -184,7 +185,7 @@ export function Navbar() {
           <button
             type="button"
             onClick={() => setMobileOpen((prev) => !prev)}
-            className="flex cursor-pointer items-center justify-center rounded-lg border p-1.5 lg:hidden"
+            className="flex shrink-0 cursor-pointer items-center justify-center rounded-lg border p-1.5 lg:hidden"
             style={{
               borderColor: 'var(--border-subtle)',
               backgroundColor: 'var(--bg-card-solid)',

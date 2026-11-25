@@ -19,6 +19,7 @@ import { RAID_BOSSES } from '../data/raidBosses'
 import { JAMMIN_EMOTES } from '../data/emotes'
 import { PrismShard } from '../components/EasterEggLayer'
 import { Timeline2026 } from '../components/Timeline2026'
+import { HistoricQuotesWall } from '../components/HistoricQuotesWall'
 
 /**
  * Home bento picks: up to 6 dispatches, one per unique cover artwork.
@@ -58,12 +59,12 @@ export function HomePage() {
     <div className="mx-auto max-w-7xl px-4 pt-6 pb-12 sm:px-6">
       {/* HERO POSTER STAGE — Mobile-first split poster + Desktop full-bleed editorial */}
       <section className="neon-panel hud-corners dark-surface relative overflow-hidden rounded-3xl">
-        {/* Mobile Portrait Artwork Banner (100% unobstructed Jammin-E on phones!) */}
-        <div className="relative h-64 w-full overflow-hidden border-b border-white/15 bg-[#090a10] sm:h-80 lg:hidden">
+        {/* Mobile Portrait Artwork Banner (Dedicated right-crop so Jammin-E fills 100% edge-to-edge!) */}
+        <div className="relative h-72 w-full overflow-hidden border-b border-white/15 bg-[#090a10] sm:h-88 lg:hidden">
           <img
-            src="/art/hero-jammin-e.png"
+            src="/art/hero-jammin-e-mobile.png"
             alt="Jammin-E — NEON//WORLD Key Visual"
-            className="h-full w-full object-cover object-[78%_center]"
+            className="h-full w-full object-cover object-top"
           />
           <div className="absolute right-3 bottom-3 rounded-lg border-2 border-[#111116] bg-[#c8ff00] px-2.5 py-0.5 font-mono-tech text-[10px] font-black text-[#111116] shadow-[3px_3px_0px_#ff2e88]">
             JAMMIN-E // NEON-04
@@ -408,6 +409,9 @@ export function HomePage() {
       {/* 80 DAYS TIMELINE */}
       <Timeline2026 />
 
+      {/* HISTORIC NOV 2026 QUOTES WALL */}
+      <HistoricQuotesWall />
+
       {/* NEON CLUB DROP LOOKBOOK TEASER */}
       <section className="mt-14">
         <div className="neon-panel rounded-3xl p-6 sm:p-8">
@@ -513,13 +517,14 @@ export function HomePage() {
           <h3 className="font-display mt-1 text-xl font-extrabold">
             {t({ ko: '잼민E 도감 & 도트 미니콘', en: 'Jammin-E Studio & Pixel Minicons' })}
           </h3>
-          <div className="mt-3 flex items-center gap-2">
+          <div className="mt-3 grid grid-cols-4 gap-2">
             {JAMMIN_EMOTES.map((emote) => (
               <img
                 key={emote.id}
                 src={emote.file}
                 alt={t(emote.name)}
-                className="h-11 w-11 rounded-lg border border-[#00f0ff]/40 object-cover [image-rendering:pixelated]"
+                loading="lazy"
+                className="aspect-square w-full rounded-lg border border-[#00f0ff]/40 object-cover [image-rendering:pixelated]"
               />
             ))}
           </div>

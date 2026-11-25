@@ -96,22 +96,23 @@ export function JamminCompanion() {
         </div>
       )}
 
-      {/* Floating Mascot Trigger */}
+      {/* Floating Mascot Trigger — compact circle on mobile, full pill on sm+ */}
       <button
         type="button"
         onClick={() => {
           playSynth('click')
           setExpanded((prev) => !prev)
         }}
-        className="group relative flex cursor-pointer items-center gap-2.5 rounded-full border-2 border-[#00f0ff]/70 bg-[#0c142b] py-1.5 pr-4 pl-1.5 text-white shadow-[0_10px_30px_rgba(0,240,255,0.28)] transition-all hover:scale-105 hover:border-[#ff5da2]"
+        className="group relative flex cursor-pointer items-center gap-2.5 rounded-full border-2 border-[#c8ff00]/80 bg-[#0c142b] p-1 text-white shadow-[0_10px_28px_rgba(0,240,255,0.28)] transition-all hover:scale-105 hover:border-[#ff2e88] sm:py-1.5 sm:pr-4 sm:pl-1.5"
+        aria-label="Poke Jammin-E live companion"
       >
         <img
           src={currentEmote.file}
           alt="Jammin-E"
-          className="h-11 w-11 rounded-full border border-white/30 object-cover"
+          className="h-12 w-12 rounded-full border border-white/30 object-cover [image-rendering:pixelated] sm:h-11 sm:w-11"
         />
-        <div className="text-left leading-tight">
-          <div className="flex items-center gap-1 font-mono-tech text-[10px] font-bold text-[#00f0ff]">
+        <div className="hidden text-left leading-tight sm:block">
+          <div className="flex items-center gap-1 font-mono-tech text-[10px] font-bold text-[#c8ff00]">
             <MessageCircle className="h-3 w-3" />
             <span>JAMMIN-E</span>
           </div>
@@ -121,7 +122,7 @@ export function JamminCompanion() {
               : t({ ko: '잼민E 찔러보기♡', en: 'Poke Jammin-E♡' })}
           </div>
         </div>
-        <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#ff5da2] text-[9px] font-black text-white">
+        <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#ff2e88] text-[9px] font-black text-white">
           ✦
         </span>
       </button>
