@@ -1,6 +1,6 @@
 import { Link, useParams } from 'react-router-dom'
 import { ArrowLeft, ArrowRight, Clock, ExternalLink, Sparkles, BookOpen } from 'lucide-react'
-import { DISPATCHES } from '../data/dispatches'
+import { ALL_DISPATCHES } from '../data/allDispatches'
 import { JAMMIN_EMOTES } from '../data/emotes'
 import { useApp } from '../context/AppContext'
 import { UI_COPY } from '../i18n/ui'
@@ -9,8 +9,8 @@ export function DispatchDetailPage() {
   const { slug } = useParams()
   const { t, playSynth } = useApp()
 
-  const idx = DISPATCHES.findIndex((d) => d.slug === slug)
-  const dispatch = idx >= 0 ? DISPATCHES[idx] : null
+  const idx = ALL_DISPATCHES.findIndex((d) => d.slug === slug)
+  const dispatch = idx >= 0 ? ALL_DISPATCHES[idx] : null
 
   if (!dispatch) {
     return (
@@ -33,8 +33,8 @@ export function DispatchDetailPage() {
     )
   }
 
-  const prevDispatch = idx > 0 ? DISPATCHES[idx - 1] : null
-  const nextDispatch = idx < DISPATCHES.length - 1 ? DISPATCHES[idx + 1] : null
+  const prevDispatch = idx > 0 ? ALL_DISPATCHES[idx - 1] : null
+  const nextDispatch = idx < ALL_DISPATCHES.length - 1 ? ALL_DISPATCHES[idx + 1] : null
 
   return (
     <article className="mx-auto max-w-4xl px-4 py-8 sm:px-6">

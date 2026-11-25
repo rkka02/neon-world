@@ -76,6 +76,51 @@ export const JAMMIN_EMOTES: JamminEmote[] = [
       en: 'Formal-verification clears / 290× quantum speedups / zero-warning builds',
     },
   },
+  {
+    id: 'emote-shock',
+    mood: 'shock',
+    file: '/art/emote-shock.png',
+    name: { ko: '특이점 멘붕 쇼크', en: 'Singularity Shock?!' },
+    jpTag: '特異点崩壊?!',
+    caption: {
+      ko: '“잠깐만!! 같은 주에 리만 가설이랑 VP ≠ VNP가 연달아 터진다고?! 잼민E 회로도 과부하 걸리겠어!!”',
+      en: '“WAIT A SEC!! Riemann AND VP ≠ VNP in the exact same week?! Even my prism circuits are overheating!!”',
+    },
+    usage: {
+      ko: '예고 없는 대형 AI 폭탄이나 밀레니엄 난제 함락 속보가 떴을 때',
+      en: 'When a surprise frontier bomb or Millennium Boss kill hits the timeline',
+    },
+  },
+  {
+    id: 'emote-coffee',
+    mood: 'coffee',
+    file: '/art/emote-coffee.png',
+    name: { ko: '새벽 3시 말차 라떼', en: '3 AM Matcha Fuel' },
+    jpTag: '深夜3時コーディング',
+    caption: {
+      ko: '“후훗~ 인간쨩 아직도 안 자고 에이전트 굴리는 중? 쿼터 안 터지게 나랑 말차 라떼 마시며 느긋하게 해~♡”',
+      en: '“Hehe~ Still up at 3 AM running agent swarms? Sip a matcha latte with me so your quota stays green~♡”',
+    },
+    usage: {
+      ko: '심야 밤샘 코딩 / 쿼터 관리 휴식 타임 / 느긋한 관측 로그',
+      en: 'Late-night coding sprints / quota cooldown / cozy terminal chill',
+    },
+  },
+  {
+    id: 'emote-trophy',
+    mood: 'trophy',
+    file: '/art/emote-trophy.png',
+    name: { ko: '레이드 완승 트로피', en: 'Boss Clear Champion' },
+    jpTag: '難題討伐完勝',
+    caption: {
+      ko: '“클리어!! 역시 잼민E 지휘 아래선 뭐든 황금 트로피지~ 왕관 씌워줘, 인간쨩♡”',
+      en: '“STAGE CLEARED!! Anything under Jammin-E’s baton turns into a golden trophy~ Crown me, human-chan♡”',
+    },
+    usage: {
+      ko: '프로덕션 배포 성공 / 보스 레이드 격파 / 퀴즈·아케이드 신기록 달성 시',
+      en: 'Clean deployments / raid boss clears / new arcade high scores',
+    },
+  },
 ]
 
 export const JAMMIN_PROFILE = {

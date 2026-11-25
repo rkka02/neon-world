@@ -51,7 +51,7 @@ export function JamminCompanion() {
             <img
               src={currentEmote.file}
               alt={t(currentEmote.name)}
-              className="h-20 w-20 shrink-0 rounded-xl border border-[#00f0ff]/40 object-cover shadow-md"
+              className="h-20 w-20 shrink-0 rounded-xl border border-[#00f0ff]/40 object-cover shadow-md [image-rendering:pixelated]"
             />
             <p className="text-xs leading-relaxed font-medium" style={{ color: 'var(--text-primary)' }}>
               {t(jamminSpeech)}
@@ -59,7 +59,7 @@ export function JamminCompanion() {
           </div>
 
           <div className="mt-3 flex flex-wrap items-center justify-between gap-2 border-t pt-2.5" style={{ borderColor: 'var(--border-subtle)' }}>
-            <div className="flex items-center gap-1">
+            <div className="flex flex-wrap items-center gap-1">
               {JAMMIN_EMOTES.map((emote) => (
                 <button
                   key={emote.id}
@@ -71,11 +71,15 @@ export function JamminCompanion() {
                   className="cursor-pointer overflow-hidden rounded-md border transition-transform hover:scale-110"
                   style={{
                     borderColor:
-                      emote.mood === jamminMood ? '#00f0ff' : 'var(--border-subtle)',
+                      emote.mood === jamminMood ? '#c8ff00' : 'var(--border-subtle)',
                   }}
                   title={t(emote.name)}
                 >
-                  <img src={emote.file} alt={t(emote.name)} className="h-7 w-7 object-cover" />
+                  <img
+                    src={emote.file}
+                    alt={t(emote.name)}
+                    className="h-7 w-7 object-cover [image-rendering:pixelated]"
+                  />
                 </button>
               ))}
             </div>

@@ -1,13 +1,54 @@
 import { useState } from 'react'
-import { Check, Copy, Download, Palette, Sparkles, Star } from 'lucide-react'
+import { Check, Copy, Download, Image as ImageIcon, Palette, Sparkles, Star, X } from 'lucide-react'
 import { JAMMIN_EMOTES, JAMMIN_PROFILE } from '../data/emotes'
 import { useApp } from '../context/AppContext'
 import { PrismShard } from '../components/EasterEggLayer'
+import { MemeCardMaker } from '../components/MemeCardMaker'
+
+const WALLPAPERS = [
+  {
+    id: 'hero',
+    file: '/art/hero-jammin-e.png',
+    tag: 'KEY VISUAL 01',
+    title: { ko: '네온 도쿄 타워 — 잼민E 메인 키비주얼', en: 'Neon Tokyo Tower — Main Key Visual' },
+  },
+  {
+    id: 'mathocalypse',
+    file: '/art/banner-mathocalypse.png',
+    tag: 'KEY VISUAL 02',
+    title: { ko: '2026 매스아포칼립스 — 프리즘 선글라스', en: '2026 Mathocalypse — Prism Shades' },
+  },
+  {
+    id: 'arena',
+    file: '/art/banner-frontier-arena.png',
+    tag: 'KEY VISUAL 03',
+    title: { ko: '프론티어 삼국지 — 3분할 팝아트 아레나', en: 'Frontier Trifecta — 3-Panel Pop Arena' },
+  },
+  {
+    id: 'quantum',
+    file: '/art/banner-quantum-swarm.png',
+    tag: 'KEY VISUAL 04',
+    title: { ko: '양자 샹들리에 & 도트 스웜 지휘', en: 'Quantum Chandelier & Pixel Swarm' },
+  },
+  {
+    id: 'ipo',
+    file: '/art/banner-ipo-chaos.png',
+    tag: 'KEY VISUAL 05',
+    title: { ko: 'ANT IPO 캔들스틱 롤러코스터 서핑', en: 'ANT IPO Candlestick Rollercoaster Surf' },
+  },
+  {
+    id: 'worlds',
+    file: '/art/banner-world-models.png',
+    tag: 'KEY VISUAL 06',
+    title: { ko: 'Genie 4 월드 모델 & 휴머노이드 건축가', en: 'Genie 4 World Models & Humanoid Architect' },
+  },
+]
 
 export function JamminStudioPage() {
   const { t, playSynth, triggerJammin } = useApp()
   const [selectedId, setSelectedId] = useState(JAMMIN_EMOTES[0].id)
   const [copiedId, setCopiedId] = useState<string | null>(null)
+  const [lightboxFile, setLightboxFile] = useState<{ file: string; title: string } | null>(null)
 
   const activeEmote = JAMMIN_EMOTES.find((e) => e.id === selectedId) ?? JAMMIN_EMOTES[0]
 
@@ -70,7 +111,7 @@ export function JamminStudioPage() {
             </div>
           </div>
 
-          <div className="mt-5 grid grid-cols-5 gap-2">
+          <div className="mt-5 grid grid-cols-4 gap-2">
             {JAMMIN_EMOTES.map((emote) => {
               const active = emote.id === selectedId
               return (
@@ -267,12 +308,12 @@ export function JamminStudioPage() {
               <span>DC-CON / DISCORD READY HI-BIT PIXEL PACK</span>
             </div>
             <h2 className="font-display mt-1 text-2xl font-extrabold">
-              {t({ ko: '잼민E 도트 미니콘 무료 배포팩 (5종)', en: 'Downloadable Jammin-E Pixel Minicon Pack (5 Stickers)' })}
+              {t({ ko: `잼민E 도트 미니콘 무료 배포팩 (${JAMMIN_EMOTES.length}종)`, en: `Downloadable Jammin-E Pixel Minicon Pack (${JAMMIN_EMOTES.length} Stickers)` })}
             </h2>
           </div>
         </div>
 
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {JAMMIN_EMOTES.map((emote) => (
             <div
               key={emote.id}
@@ -323,6 +364,94 @@ export function JamminStudioPage() {
           ))}
         </div>
       </section>
+
+      {/* INTERACTIVE STREETWEAR STICKER & MEME CARD MAKER */}
+      <section className="mt-12">
+        <MemeCardMaker />
+      </section>
+
+      {/* 16:9 GRAPHIC-POP WALLPAPER GALLERY */}
+      <section className="mt-12">
+        <div className="mb-5">
+          <div className="inline-flex items-center gap-1.5 font-mono-tech text-xs font-extrabold text-[#c8ff00]">
+            <ImageIcon className="h-4 w-4" />
+            <span>16:9 NEO-TOKYO GRAPHIC POP POSTER ARCHIVE</span>
+          </div>
+          <h2 className="font-display mt-1 text-2xl font-extrabold">
+            {t({ ko: '잼민E 월페이퍼 & 포스터 갤러리 (6종 무료 저장)', en: 'Jammin-E 16:9 Poster & Wallpaper Archive (6 Free PNGs)' })}
+          </h2>
+        </div>
+
+        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {WALLPAPERS.map((wp) => (
+            <div key={wp.id} className="neon-panel neon-panel-interactive overflow-hidden rounded-2xl">
+              <button
+                type="button"
+                onClick={() => {
+                  playSynth('click')
+                  setLightboxFile({ file: wp.file, title: t(wp.title) })
+                }}
+                className="block w-full cursor-pointer overflow-hidden border-b bg-[#090a10]"
+                style={{ borderColor: 'var(--border-subtle)' }}
+              >
+                <img
+                  src={wp.file}
+                  alt={t(wp.title)}
+                  className="aspect-video w-full object-cover transition-transform duration-500 hover:scale-105"
+                />
+              </button>
+              <div className="flex items-center justify-between gap-2 p-4">
+                <div className="min-w-0">
+                  <div className="font-mono-tech text-[10px] font-extrabold text-[#ff2e88]">{wp.tag}</div>
+                  <div className="truncate text-xs font-extrabold sm:text-sm">{t(wp.title)}</div>
+                </div>
+                <a
+                  href={wp.file}
+                  download={`neon-world-${wp.id}.png`}
+                  onClick={() => playSynth('click')}
+                  className="shrink-0 rounded-lg border-2 border-[#111116] bg-[#c8ff00] px-2.5 py-1.5 font-mono-tech text-[10px] font-black text-[#111116]"
+                >
+                  PNG ↓
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Fullscreen Lightbox */}
+      {lightboxFile && (
+        <div
+          className="fixed inset-0 z-[75] flex items-center justify-center bg-black/85 p-4 backdrop-blur-md"
+          onClick={() => setLightboxFile(null)}
+        >
+          <div className="relative w-full max-w-5xl" onClick={(e) => e.stopPropagation()}>
+            <button
+              type="button"
+              onClick={() => setLightboxFile(null)}
+              className="absolute -top-10 right-0 flex cursor-pointer items-center gap-1 rounded-lg bg-white/15 px-3 py-1 font-mono-tech text-xs font-bold text-white hover:bg-[#ff2e88]"
+            >
+              <X className="h-4 w-4" />
+              CLOSE
+            </button>
+            <img
+              src={lightboxFile.file}
+              alt={lightboxFile.title}
+              className="w-full rounded-2xl border-2 border-[#c8ff00] shadow-2xl"
+            />
+            <div className="mt-3 flex items-center justify-between text-xs font-bold text-white">
+              <span>{lightboxFile.title}</span>
+              <a
+                href={lightboxFile.file}
+                download
+                className="rounded-lg bg-[#c8ff00] px-3 py-1.5 font-mono-tech text-[11px] font-black text-[#111116]"
+              >
+                DOWNLOAD FULL PNG
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

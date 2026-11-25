@@ -1,6 +1,14 @@
 export type Lang = 'ko' | 'en'
 export type Theme = 'prism-night' | 'solar-zine'
-export type JamminMood = 'smug' | 'wink' | 'hype' | 'innocent' | 'math'
+export type JamminMood =
+  | 'smug'
+  | 'wink'
+  | 'hype'
+  | 'innocent'
+  | 'math'
+  | 'shock'
+  | 'coffee'
+  | 'trophy'
 
 export interface LocalizedText {
   ko: string

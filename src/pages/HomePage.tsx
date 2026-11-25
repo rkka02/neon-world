@@ -14,16 +14,34 @@ import {
 } from 'lucide-react'
 import { useApp } from '../context/AppContext'
 import { UI_COPY } from '../i18n/ui'
-import { DISPATCHES } from '../data/dispatches'
+import { ALL_DISPATCHES } from '../data/allDispatches'
 import { RAID_BOSSES } from '../data/raidBosses'
 import { JAMMIN_EMOTES } from '../data/emotes'
 import { PrismShard } from '../components/EasterEggLayer'
+import { Timeline2026 } from '../components/Timeline2026'
+
+/**
+ * Home bento picks: up to 6 dispatches, one per unique cover artwork.
+ * Ranked breaking → featured → newest so the strongest story claims each banner.
+ */
+const BENTO_SIZE = 6
+const featuredDispatches = (() => {
+  const rank = (d: (typeof ALL_DISPATCHES)[number]) => (d.breaking ? 2 : 0) + (d.featured ? 1 : 0)
+  const ranked = [...ALL_DISPATCHES].sort((a, b) => rank(b) - rank(a) || b.date.localeCompare(a.date))
+  const seenArt = new Set<string>()
+  const picks = ranked.filter((d) => {
+    const art = d.coverImage ?? d.slug
+    if (seenArt.has(art)) return false
+    seenArt.add(art)
+    return true
+  })
+  return picks.slice(0, BENTO_SIZE).sort((a, b) => b.date.localeCompare(a.date))
+})()
 
 export function HomePage() {
   const { t, singularityHeat, injectCompute, triggerJammin, playSynth } = useApp()
   const [beamActive, setBeamActive] = useState(false)
 
-  const featuredDispatches = DISPATCHES.filter((d) => d.featured).slice(0, 4)
   const hotBosses = RAID_BOSSES.slice(0, 4)
 
   const handleInject = () => {
@@ -231,12 +249,15 @@ export function HomePage() {
             to="/dispatches"
             className="inline-flex items-center gap-1.5 font-mono-tech text-xs font-bold text-[#00f0ff] hover:underline"
           >
-            <span>{t({ ko: '전체 8편 아카이브 보기', en: 'View All 8 Dispatches' })}</span>
+            <span>{t({
+                ko: `전체 ${ALL_DISPATCHES.length}편 아카이브 보기`,
+                en: `View All ${ALL_DISPATCHES.length} Dispatches`,
+              })}</span>
             <ArrowRight className="h-3.5 w-3.5" />
           </Link>
         </div>
 
-        <div className="grid gap-5 md:grid-cols-2">
+        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
           {featuredDispatches.map((dispatch) => (
             <Link
               key={dispatch.slug}
@@ -383,6 +404,9 @@ export function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* 80 DAYS TIMELINE */}
+      <Timeline2026 />
 
       {/* NEON CLUB DROP LOOKBOOK TEASER */}
       <section className="mt-14">

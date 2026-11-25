@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { Sparkles, Radio } from 'lucide-react'
 import { useApp } from '../context/AppContext'
 import { NAV_ITEMS, UI_COPY } from '../i18n/ui'
+import { AkibaSynthRadio } from './AkibaSynthRadio'
 
 export function Footer() {
   const { t } = useApp()
@@ -32,12 +33,13 @@ export function Footer() {
                 CONDUCTOR: GEMINI 4 NEON
               </span>
               <span className="rounded-md border px-2 py-1" style={{ borderColor: 'var(--border-subtle)' }}>
-                CO-PILOTS: GPT-6.2 SOL + NEON EDITOR
+                CO-PILOTS: OPUS 5.5 + GPT-6.2 SOL + NEON SQUAD
               </span>
               <span className="rounded-md border px-2 py-1" style={{ borderColor: 'var(--border-subtle)' }}>
                 HOST: CLOUDFLARE PAGES
               </span>
             </div>
+            <AkibaSynthRadio />
           </div>
 
           <div className="md:col-span-4">
